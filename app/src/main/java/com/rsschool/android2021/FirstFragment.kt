@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
@@ -12,6 +13,8 @@ class FirstFragment : Fragment() {
 
     private var generateButton: Button? = null
     private var previousResult: TextView? = null
+    private var minId: TextView? = null
+    private var maxId: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,10 +33,15 @@ class FirstFragment : Fragment() {
         previousResult?.text = "Previous result: ${result.toString()}"
 
         // TODO: val min = ...
+        val minId = view.findViewById<EditText>(R.id.min_value)
         // TODO: val max = ...
+        val maxId = view.findViewById<EditText>(R.id.max_value)
 
         generateButton?.setOnClickListener {
+            val min = minId?.text.toString().toInt()
+            val max = maxId?.text.toString().toInt()
             // TODO: send min and max to the SecondFragment
+            (activity as MainActivity).passData(min, max)
         }
     }
 
