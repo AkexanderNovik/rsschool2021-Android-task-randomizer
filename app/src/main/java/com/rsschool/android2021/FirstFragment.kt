@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 class FirstFragment : Fragment() {
 
     private var generateButton: Button? = null
     private var previousResult: TextView? = null
-    private var minId: TextView? = null
-    private var maxId: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,10 +37,21 @@ class FirstFragment : Fragment() {
         val maxId = view.findViewById<EditText>(R.id.max_value)
 
         generateButton?.setOnClickListener {
-            val min = minId?.text.toString().toInt()
-            val max = maxId?.text.toString().toInt()
+            val minInputField = minId.text.toString()
+            val maxInputField = maxId.text.toString()
+            var min = 0
+            var max = 0
+            if (minInputField.length > 0 && maxInputField.length > 0) {
+                min = minInputField.toInt()
+                max = maxInputField.toInt()
+            }
             // TODO: send min and max to the SecondFragment
-            (activity as MainActivity).passData(min, max)
+            when {
+                min < 0 || max < 1 || min > max ->
+                    Toast.makeText(context, "Please, change Min and Max value", Toast.LENGTH_LONG)
+                        .show()
+                else -> (activity as MainActivity).passData(min, max)
+            }
         }
     }
 
