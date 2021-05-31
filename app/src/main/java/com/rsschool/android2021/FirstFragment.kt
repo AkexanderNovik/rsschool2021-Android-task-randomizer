@@ -1,9 +1,11 @@
 package com.rsschool.android2021
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -41,17 +43,27 @@ class FirstFragment : Fragment() {
             val maxInputField = maxId.text.toString()
             var min = 0
             var max = 0
-            if (minInputField.length > 0 && maxInputField.length > 0) {
+            if (minInputField.isNotEmpty() && maxInputField.isNotEmpty()) {
                 min = minInputField.toInt()
                 max = maxInputField.toInt()
             }
             // TODO: send min and max to the SecondFragment
             when {
-                min < 0 || max < 1 || min > max ->
+                min < 0 || max < 1 || min > max -> {
+                    closeKeyboard()
                     Toast.makeText(context, "Please, change Min and Max value", Toast.LENGTH_LONG)
                         .show()
+                }
                 else -> (activity as MainActivity).passData(min, max)
             }
+        }
+    }
+
+    private fun closeKeyboard() {
+        activity?.currentFocus?.let { view ->
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
+            view.clearFocus()
         }
     }
 
