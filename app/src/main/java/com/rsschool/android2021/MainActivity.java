@@ -8,9 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import org.jetbrains.annotations.NotNull;
-
 public class MainActivity extends AppCompatActivity implements DataCommunicator {
+
+    private int previousNumber = 0;
+    private int y = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,18 +32,33 @@ public class MainActivity extends AppCompatActivity implements DataCommunicator 
 
     private void openSecondFragment(int min, int max) {
         // TODO: implement it
+        y = 1;
         final Fragment firstFragment = SecondFragment.newInstance(min, max);
         final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, firstFragment).commit();
     }
 
     @Override
-    public void passToFirstFragment(int previousNumber) {
+    public void passToFirstFragment() {
         openFirstFragment(previousNumber);
     }
 
     @Override
     public void passData(int min, int max) {
         openSecondFragment(min, max);
+    }
+
+    @Override
+    public void passRandomNumber(int randomNumber) {
+        this.previousNumber = randomNumber;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (y == 1) {
+            openFirstFragment(this.previousNumber);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

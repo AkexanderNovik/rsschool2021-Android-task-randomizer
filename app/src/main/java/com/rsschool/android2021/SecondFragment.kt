@@ -13,6 +13,7 @@ class SecondFragment : Fragment() {
 
     private var backButton: Button? = null
     private var result: TextView? = null
+    private var randomNumber = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,15 +30,17 @@ class SecondFragment : Fragment() {
 
         val min = arguments?.getInt(MIN_VALUE_KEY) ?: 0
         val max = arguments?.getInt(MAX_VALUE_KEY) ?: 0
-        val randomNumber = generate(min, max)
+        randomNumber = generate(min, max)
+        (activity as MainActivity).passRandomNumber(randomNumber)
 
         result?.text = randomNumber.toString()
 
         backButton?.setOnClickListener {
             // TODO: implement back
-            (activity as MainActivity).passToFirstFragment(randomNumber)
+            (activity as MainActivity).passToFirstFragment()
         }
     }
+
 
     private fun generate(min: Int, max: Int): Int {
         // TODO: generate random number

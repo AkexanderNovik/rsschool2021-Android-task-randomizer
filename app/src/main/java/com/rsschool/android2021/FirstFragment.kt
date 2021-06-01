@@ -50,16 +50,24 @@ class FirstFragment : Fragment() {
             // TODO: send min and max to the SecondFragment
             if (min != null && max != null) {
                 when {
-                    min < 0 || max < 1 || min > max -> {
+                    min < 0 || max < 1 || min >= max -> {
                         closeKeyboard()
-                        Toast.makeText(context, "Please, change Min and Max value", Toast.LENGTH_LONG)
+                        Toast.makeText(
+                            context,
+                            "Please, change Min and Max value",
+                            Toast.LENGTH_LONG
+                        )
                             .show()
                     }
                     else -> (activity as MainActivity).passData(min, max)
                 }
             } else {
                 closeKeyboard()
-                Toast.makeText(context, "Please, change input values. Min and Max should be less than 2,147,483,647", Toast.LENGTH_LONG)
+                Toast.makeText(
+                    context,
+                    "Please, change input values. Min and Max should be less than 2,147,483,647",
+                    Toast.LENGTH_LONG
+                )
                     .show()
                 minId.text.clear()
                 maxId.text.clear()
